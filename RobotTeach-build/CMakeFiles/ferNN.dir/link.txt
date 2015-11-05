@@ -1,0 +1,2 @@
+/usr/bin/ar cr /home/jes/Desktop/project/RobotTeach/lib/libferNN.a  CMakeFiles/ferNN.dir/FerNNClassifier.o
+/usr/bin/ranlib /home/jes/Desktop/project/RobotTeach/lib/libferNN.a

@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+   <FileVersion major="1" minor="6" />
+   <Project>
+      <Option title="TLD" />
+      <Option makefile_is_custom="1" />
+      <Option compiler="gcc" />
+      <Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\..\usr\local\;CMake Files\..\..\..\..\..\..\usr\local\share\;CMake Files\..\..\..\..\..\..\usr\local\share\OpenCV\;" />
+      <Build>
+      <Target title="all">
+         <Option working_dir="/home/jes/Desktop/project/RobotTeach/RobotTeach-build" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 all" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="LKTracker">
+         <Option output="/home/jes/Desktop/project/RobotTeach/lib/libLKTracker.a" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/jes/Desktop/project/RobotTeach/RobotTeach-build" />
+         <Option object_output="./" />
+         <Option type="2" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/jes/Desktop/project/RobotTeach/RobotTeach/../include" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/4.8" />
+            <Add directory="/usr/include/c++/4.8/backward" />
+            <Add directory="/usr/include/i386-linux-gnu" />
+            <Add directory="/usr/include/i386-linux-gnu/c++/4.8" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.8/include" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.8/include-fixed" />
+            <Add directory="/usr/local/include" />
+            <Add directory="/usr/local/include/opencv" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 LKTracker" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="LKTracker/fast">
+         <Option output="/home/jes/Desktop/project/RobotTeach/lib/libLKTracker.a" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/jes/Desktop/project/RobotTeach/RobotTeach-build" />
+         <Option object_output="./" />
+         <Option type="2" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/jes/Desktop/project/RobotTeach/RobotTeach/../include" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/4.8" />
+            <Add directory="/usr/include/c++/4.8/backward" />
+            <Add directory="/usr/include/i386-linux-gnu" />
+            <Add directory="/usr/include/i386-linux-gnu/c++/4.8" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.8/include" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.8/include-fixed" />
+            <Add directory="/usr/local/include" />
+            <Add directory="/usr/local/include/opencv" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 LKTracker/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="ferNN">
+         <Option output="/home/jes/Desktop/project/RobotTeach/lib/libferNN.a" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/jes/Desktop/project/RobotTeach/RobotTeach-build" />
+         <Option object_output="./" />
+         <Option type="2" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/jes/Desktop/project/RobotTeach/RobotTeach/../include" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/4.8" />
+            <Add directory="/usr/include/c++/4.8/backward" />
+            <Add directory="/usr/include/i386-linux-gnu" />
+            <Add directory="/usr/include/i386-linux-gnu/c++/4.8" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.8/include" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.8/include-fixed" />
+            <Add directory="/usr/local/include" />
+            <Add directory="/usr/local/include/opencv" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 ferNN" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="ferNN/fast">
+         <Option output="/home/jes/Desktop/project/RobotTeach/lib/libferNN.a" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/jes/Desktop/project/RobotTeach/RobotTeach-build" />
+         <Option object_output="./" />
+         <Option type="2" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/jes/Desktop/project/RobotTeach/RobotTeach/../include" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/4.8" />
+            <Add directory="/usr/include/c++/4.8/backward" />
+            <Add directory="/usr/include/i386-linux-gnu" />
+            <Add directory="/usr/include/i386-linux-gnu/c++/4.8" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.8/include" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.8/include-fixed" />
+            <Add directory="/usr/local/include" />
+            <Add directory="/usr/local/include/opencv" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 ferNN/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="rebuild_cache">
+         <Option working_dir="/home/jes/Desktop/project/RobotTeach/RobotTeach-build" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 rebuild_cache" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="tld">
+         <Option output="/home/jes/Desktop/project/RobotTeach/lib/libtld.a" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/jes/Desktop/project/RobotTeach/RobotTeach-build" />
+         <Option object_output="./" />
+         <Option type="2" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/jes/Desktop/project/RobotTeach/RobotTeach/../include" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/4.8" />
+            <Add directory="/usr/include/c++/4.8/backward" />
+            <Add directory="/usr/include/i386-linux-gnu" />
+            <Add directory="/usr/include/i386-linux-gnu/c++/4.8" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.8/include" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.8/include-fixed" />
+            <Add directory="/usr/local/include" />
+            <Add directory="/usr/local/include/opencv" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 tld" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="tld/fast">
+         <Option output="/home/jes/Desktop/project/RobotTeach/lib/libtld.a" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/jes/Desktop/project/RobotTeach/RobotTeach-build" />
+         <Option object_output="./" />
+         <Option type="2" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/jes/Desktop/project/RobotTeach/RobotTeach/../include" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/4.8" />
+            <Add directory="/usr/include/c++/4.8/backward" />
+            <Add directory="/usr/include/i386-linux-gnu" />
+            <Add directory="/usr/include/i386-linux-gnu/c++/4.8" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.8/include" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.8/include-fixed" />
+            <Add directory="/usr/local/include" />
+            <Add directory="/usr/local/include/opencv" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 tld/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="tld_utils">
+         <Option output="/home/jes/Desktop/project/RobotTeach/lib/libtld_utils.a" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/jes/Desktop/project/RobotTeach/RobotTeach-build" />
+         <Option object_output="./" />
+         <Option type="2" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/jes/Desktop/project/RobotTeach/RobotTeach/../include" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/4.8" />
+            <Add directory="/usr/include/c++/4.8/backward" />
+            <Add directory="/usr/include/i386-linux-gnu" />
+            <Add directory="/usr/include/i386-linux-gnu/c++/4.8" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.8/include" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.8/include-fixed" />
+            <Add directory="/usr/local/include" />
+            <Add directory="/usr/local/include/opencv" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 tld_utils" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="tld_utils/fast">
+         <Option output="/home/jes/Desktop/project/RobotTeach/lib/libtld_utils.a" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/jes/Desktop/project/RobotTeach/RobotTeach-build" />
+         <Option object_output="./" />
+         <Option type="2" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/jes/Desktop/project/RobotTeach/RobotTeach/../include" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/4.8" />
+            <Add directory="/usr/include/c++/4.8/backward" />
+            <Add directory="/usr/include/i386-linux-gnu" />
+            <Add directory="/usr/include/i386-linux-gnu/c++/4.8" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.8/include" />
+            <Add directory="/usr/lib/gcc/i686-linux-gnu/4.8/include-fixed" />
+            <Add directory="/usr/local/include" />
+            <Add directory="/usr/local/include/opencv" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 tld_utils/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/jes/Desktop/project/RobotTeach/RobotTeach-build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      </Build>
+      <Unit filename="/home/jes/Desktop/project/RobotTeach/RobotTeach/FerNNClassifier.cpp">
+      </Unit>
+      <Unit filename="/home/jes/Desktop/project/RobotTeach/RobotTeach/LKTracker.cpp">
+      </Unit>
+      <Unit filename="/home/jes/Desktop/project/RobotTeach/RobotTeach/TLD.cpp">
+      </Unit>
+      <Unit filename="/home/jes/Desktop/project/RobotTeach/RobotTeach/tld_utils.cpp">
+      </Unit>
+      <Unit filename="/home/jes/Desktop/project/RobotTeach/RobotTeach/FerNNClassifier.h">
+      </Unit>
+      <Unit filename="/home/jes/Desktop/project/RobotTeach/RobotTeach/LKTracker.h">
+      </Unit>
+      <Unit filename="/home/jes/Desktop/project/RobotTeach/RobotTeach/TLD.h">
+      </Unit>
+      <Unit filename="/home/jes/Desktop/project/RobotTeach/RobotTeach/tld_utils.h">
+      </Unit>
+      <Unit filename="/home/jes/Desktop/project/RobotTeach/RobotTeach/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+      <Unit filename="/home/jes/Desktop/project/RobotTeach/RobotTeach/../../../../../../usr/local/share/OpenCV/OpenCVConfig-version.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\share\OpenCV\" />
+      </Unit>
+      <Unit filename="/home/jes/Desktop/project/RobotTeach/RobotTeach/../../../../../../usr/local/share/OpenCV/OpenCVConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\share\OpenCV\" />
+      </Unit>
+      <Unit filename="/home/jes/Desktop/project/RobotTeach/RobotTeach/../../../../../../usr/local/share/OpenCV/OpenCVModules.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\share\OpenCV\" />
+      </Unit>
+      <Unit filename="/home/jes/Desktop/project/RobotTeach/RobotTeach/../../../../../../usr/local/share/OpenCV/OpenCVModules-release.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\share\OpenCV\" />
+      </Unit>
+   </Project>
+</CodeBlocks_project_file>
