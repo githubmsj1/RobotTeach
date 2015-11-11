@@ -15,7 +15,7 @@ find_package(OpenCV REQUIRED)
 #set the default path for built libraries to the "lib" directory
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/../lib)
 #set the include directories
-include_directories (${PROJECT_SOURCE_DIR}/../include	${OpenCV_INCLUDE_DIRS})
+include_directories (${PROJECT_SOURCE_DIR}/.	${OpenCV_INCLUDE_DIRS})
 
 #libraries
 add_library(tld_utils tld_utils.cpp)

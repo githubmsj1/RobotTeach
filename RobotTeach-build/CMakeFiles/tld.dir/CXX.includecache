@@ -6,19 +6,21 @@
 
 #IncludeRegexTransform: 
 
-/home/jes/Desktop/project/RobotTeach/RobotTeach/../include/FerNNClassifier.h
+/home/jes/Desktop/project/RobotTeach/RobotTeach/./FerNNClassifier.h
 opencv2/opencv.hpp
 -
 stdio.h
 -
+string
+-
 
-/home/jes/Desktop/project/RobotTeach/RobotTeach/../include/LKTracker.h
+/home/jes/Desktop/project/RobotTeach/RobotTeach/./LKTracker.h
 tld_utils.h
 -
 opencv2/opencv.hpp
 -
 
-/home/jes/Desktop/project/RobotTeach/RobotTeach/../include/TLD.h
+/home/jes/Desktop/project/RobotTeach/RobotTeach/./TLD.h
 opencv2/opencv.hpp
 -
 opencv2/legacy/legacy.hpp
@@ -32,7 +34,7 @@ FerNNClassifier.h
 fstream
 -
 
-/home/jes/Desktop/project/RobotTeach/RobotTeach/../include/tld_utils.h
+/home/jes/Desktop/project/RobotTeach/RobotTeach/./tld_utils.h
 opencv2/opencv.hpp
 -
 

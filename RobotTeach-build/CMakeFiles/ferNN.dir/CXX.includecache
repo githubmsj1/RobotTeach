@@ -6,10 +6,12 @@
 
 #IncludeRegexTransform: 
 
-/home/jes/Desktop/project/RobotTeach/RobotTeach/../include/FerNNClassifier.h
+/home/jes/Desktop/project/RobotTeach/RobotTeach/./FerNNClassifier.h
 opencv2/opencv.hpp
 -
 stdio.h
+-
+string
 -
 
 /home/jes/Desktop/project/RobotTeach/RobotTeach/FerNNClassifier.cpp

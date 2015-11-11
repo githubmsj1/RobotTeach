@@ -165,7 +165,6 @@ int main(int argc, char * argv[])
             safeCount+=16;
 
 			imshow("Intelisu",frame);
-
 			waitKey(10);
 
     }
@@ -229,15 +228,15 @@ int main(int argc, char * argv[])
             //send data through serial port
             #ifdef SERIAL_PORT
 	    	static int sendRate=0;
-		if((sendRate++)%8==0)
-		{
-            		sendBuff[0]=0xff;
-			sendBuff[1]=detdObj.x;
-			sendBuff[2]=detdObj.y;
-			sendBuff[3]=0xfe;
-			serial.send_data_tty(sendBuff,4);
-            	}
-	    #endif
+            if((sendRate++)%8==0)
+            {
+                        sendBuff[0]=0xff;
+                sendBuff[1]=detdObj.x;
+                sendBuff[2]=detdObj.y;
+                sendBuff[3]=0xfe;
+                serial.send_data_tty(sendBuff,4);
+            }
+            #endif
 
             //
         }
@@ -280,11 +279,30 @@ int main(int argc, char * argv[])
         pts2.clear();
         frames++;
         //printf("Detection rate: %d/%d\n",detections,frames);
-        if ((char)waitKey(1) == 'q')
+
+        char keyValue=(char)waitKey(1);
+        if (keyValue== 'q')
           break;
+        else if(keyValue=='s')
+        {
+            cout<<"save......"<<endl;
+            tld.saveModel();
+            cout<<"done......"<<endl;
+            break;
+        }
 
         timeMs=(getTickCount()-timeMs)/getTickFrequency();
         cout<<"<<<<<<<<<< "<<"Time: "<<timeMs*1000<<" >>>>>>>>>>"<<endl;
+
+//        static size_t runingtime=0;
+//        runingtime++;
+//        cout<<"count:"<<runingtime<<endl;
+//        if(runingtime==200)
+//        {
+//            cout<<"save......"<<endl;
+//            tld.saveModel();
+//            break;
+//        }
 
 
   }

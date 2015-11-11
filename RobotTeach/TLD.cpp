@@ -775,3 +775,14 @@ void TLD::clusterConf(const vector<BoundingBox>& dbb,const vector<float>& dconf,
   printf("\n");
 }
 
+int TLD::saveModel()
+{
+    //classifier.saveFern("fern");
+    classifier.saveNN("NN");
+    return 0;
+}
+
+int TLD::loadModel()
+{
+    return 0;
+}

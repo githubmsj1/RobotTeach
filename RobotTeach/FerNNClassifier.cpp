@@ -222,3 +222,146 @@ void FerNNClassifier::show(){
   }
   imshow("Examples",examples);
 }
+void FerNNClassifier::saveNN(string file)
+{
+    ostringstream filename;
+    filename<<file<<".yml";
+
+    FileStorage fs(filename.str(),FileStorage::WRITE);
+    fs<<"pExSize"<<(int)pEx.size();
+    for(int i=0;i<pEx.size();i++)
+    {
+        ostringstream label;
+        label<<"pEx"<<i<<".jpg";
+        imwrite(label.str(),pEx[i]);
+    }
+//    inwrite
+//    fs<<"pEx"<<"[";
+//    for(int i=0;i<pEx.size();i++)
+//    {
+//        //ostringstream label;
+//        //label<<"pEx"<<i;
+//        fs<<"{";
+//        //fs<<label.str()<<pEx[i];
+//        fs<<pEx[i];
+//        fs<<"}";
+//    }
+//    fs<<"]";
+
+    fs<<"nExSize"<<(int)nEx.size();
+    for(int i=0;i<nEx.size();i++)
+    {
+        ostringstream label;
+        label<<"nEx"<<i<<".jpg";
+        imwrite(label.str(),nEx[i]);
+    }
+    fs.release();
+
+
+}
+
+void FerNNClassifier::saveFern(string file)
+{
+    ostringstream filename;
+    filename<<file<<".yml";
+    FileStorage fs(filename.str(),FileStorage::WRITE);
+    //feature output
+    fs<<"feature_table";
+    fs<<"{";
+    fs<<"dim1"<<(int)features.size();
+    fs<<"dim2"<<(int)features[0].size();
+
+    for(int i=0;i<features.size();i++)
+        for(int j=0;j<features[0].size();j++)
+        {
+            ostringstream index;
+            index<<"feature"<<i<<j;
+            fs<<index.str();
+            fs<<"{";
+            fs<<"x1"<<features[i][j].x1;
+            fs<<"x2"<<features[i][j].x2;
+            fs<<"y1"<<features[i][j].y1;
+            fs<<"y2"<<features[i][j].y1;
+            fs<<"}";
+        }
+    fs<<"}";
+
+    fs<<"posteriors";
+    fs<<"{";
+    fs<<"dim1"<<(int)posteriors.size();
+    fs<<"dim2"<<(int)posteriors[0].size();
+    for(int i=0;i<posteriors.size();i++)
+        for(int j=0;j<posteriors[0].size();j++)
+        {
+            ostringstream index;
+            index<<"posterior"<<i<<j;
+            fs<<index.str();
+            fs<<posteriors[i][j];
+        }
+    fs<<"}";
+
+
+    fs<<"pCounter";
+    fs<<"{";
+    fs<<"dim1"<<(int)pCounter.size();
+    fs<<"dim2"<<(int)pCounter[0].size();
+    for(int i=0;i<pCounter.size();i++)
+        for(int j=0;j<pCounter[0].size();j++)
+        {
+            ostringstream index;
+            index<<"pCount"<<i<<j;
+            fs<<index.str();
+            fs<<pCounter[i][j];
+        }
+    fs<<"}";
+
+    fs<<"nCounter";
+    fs<<"{";
+    fs<<"dim1"<<(int)nCounter.size();
+    fs<<"dim2"<<(int)nCounter[0].size();
+    for(int i=0;i<nCounter.size();i++)
+        for(int j=0;j<nCounter[0].size();j++)
+        {
+            ostringstream index;
+            index<<"nCount"<<i<<j;
+            fs<<index.str();
+            fs<<nCounter[i][j];
+        }
+    fs<<"}";
+
+//    fs<<"posteriors"<<posteriors;
+//    fs<<"pCounter"<<pCounter;
+//    fs<<"nCounter"<<nCounter;
+}
+
+
+void FerNNClassifier::loadNN(string file)
+{
+    ostringstream filename;
+    filename<<file<<".yml";
+    FileStorage fs;
+    fs.open(filename.str(), FileStorage::READ);
+
+    cout<<"pExSize: "<<(int)fs["pExSize"]<<endl;
+    cout<<"nExSize: "<<(int)fs["nExSize"]<<endl;
+
+//    FileNode pExnode=fs["pEx"];
+//    FileNodeIterator it = pExnode.begin();
+
+//    for( int idx=0; it != pExnode.end(); ++it, idx++ )
+//    {
+//        //cout<<(Mat)(*it)<<endl;
+//    }
+//    for(int i=0;i<pEx.size();i++)
+//    {
+//        //ostringstream label;
+//        //label<<"pEx"<<i;
+//        //fs<<label.str()<<pEx[i];
+//    }
+    fs.release();
+}
+
+void FerNNClassifier::loadFern(string file)
+{
+
+}

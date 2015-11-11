@@ -10,6 +10,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <stdio.h>
+#include <string>
 class FerNNClassifier{
 private:
   float thr_fern;
@@ -33,6 +34,13 @@ public:
   void NNConf(const cv::Mat& example,std::vector<int>& isin,float& rsconf,float& csconf);
   void evaluateTh(const std::vector<std::pair<std::vector<int>,int> >& nXT,const std::vector<cv::Mat>& nExT);
   void show();
+
+  //Model save and load
+  void saveNN(std::string name);
+  void saveFern(std::string name);
+  void loadNN(std::string name);
+  void loadFern(std::string name);
+
   //Ferns Members
   int getNumStructs(){return nstructs;}
   float getFernTh(){return thr_fern;}
@@ -56,5 +64,6 @@ public:
   //NN Members
   std::vector<cv::Mat> pEx; //NN positive examples
   std::vector<cv::Mat> nEx; //NN negative examples
+
 };
 #endif

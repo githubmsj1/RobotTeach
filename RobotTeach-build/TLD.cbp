@@ -24,7 +24,7 @@
          <Option type="2" />
          <Option compiler="gcc" />
          <Compiler>
-            <Add directory="/home/jes/Desktop/project/RobotTeach/RobotTeach/../include" />
+            <Add directory="/home/jes/Desktop/project/RobotTeach/RobotTeach/." />
             <Add directory="/usr/include" />
             <Add directory="/usr/include/c++/4.8" />
             <Add directory="/usr/include/c++/4.8/backward" />
@@ -49,7 +49,7 @@
          <Option type="2" />
          <Option compiler="gcc" />
          <Compiler>
-            <Add directory="/home/jes/Desktop/project/RobotTeach/RobotTeach/../include" />
+            <Add directory="/home/jes/Desktop/project/RobotTeach/RobotTeach/." />
             <Add directory="/usr/include" />
             <Add directory="/usr/include/c++/4.8" />
             <Add directory="/usr/include/c++/4.8/backward" />
@@ -74,7 +74,7 @@
          <Option type="2" />
          <Option compiler="gcc" />
          <Compiler>
-            <Add directory="/home/jes/Desktop/project/RobotTeach/RobotTeach/../include" />
+            <Add directory="/home/jes/Desktop/project/RobotTeach/RobotTeach/." />
             <Add directory="/usr/include" />
             <Add directory="/usr/include/c++/4.8" />
             <Add directory="/usr/include/c++/4.8/backward" />
@@ -99,7 +99,7 @@
          <Option type="2" />
          <Option compiler="gcc" />
          <Compiler>
-            <Add directory="/home/jes/Desktop/project/RobotTeach/RobotTeach/../include" />
+            <Add directory="/home/jes/Desktop/project/RobotTeach/RobotTeach/." />
             <Add directory="/usr/include" />
             <Add directory="/usr/include/c++/4.8" />
             <Add directory="/usr/include/c++/4.8/backward" />
@@ -134,7 +134,7 @@
          <Option type="2" />
          <Option compiler="gcc" />
          <Compiler>
-            <Add directory="/home/jes/Desktop/project/RobotTeach/RobotTeach/../include" />
+            <Add directory="/home/jes/Desktop/project/RobotTeach/RobotTeach/." />
             <Add directory="/usr/include" />
             <Add directory="/usr/include/c++/4.8" />
             <Add directory="/usr/include/c++/4.8/backward" />
@@ -159,7 +159,7 @@
          <Option type="2" />
          <Option compiler="gcc" />
          <Compiler>
-            <Add directory="/home/jes/Desktop/project/RobotTeach/RobotTeach/../include" />
+            <Add directory="/home/jes/Desktop/project/RobotTeach/RobotTeach/." />
             <Add directory="/usr/include" />
             <Add directory="/usr/include/c++/4.8" />
             <Add directory="/usr/include/c++/4.8/backward" />
@@ -184,7 +184,7 @@
          <Option type="2" />
          <Option compiler="gcc" />
          <Compiler>
-            <Add directory="/home/jes/Desktop/project/RobotTeach/RobotTeach/../include" />
+            <Add directory="/home/jes/Desktop/project/RobotTeach/RobotTeach/." />
             <Add directory="/usr/include" />
             <Add directory="/usr/include/c++/4.8" />
             <Add directory="/usr/include/c++/4.8/backward" />
@@ -209,7 +209,7 @@
          <Option type="2" />
          <Option compiler="gcc" />
          <Compiler>
-            <Add directory="/home/jes/Desktop/project/RobotTeach/RobotTeach/../include" />
+            <Add directory="/home/jes/Desktop/project/RobotTeach/RobotTeach/." />
             <Add directory="/usr/include" />
             <Add directory="/usr/include/c++/4.8" />
             <Add directory="/usr/include/c++/4.8/backward" />
