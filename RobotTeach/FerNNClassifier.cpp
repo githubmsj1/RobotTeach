@@ -76,13 +76,21 @@ float FerNNClassifier::measure_forest(vector<int> fern) {
 void FerNNClassifier::update(const vector<int>& fern, int C, int N) {
   int idx;
   for (int i = 0; i < nstructs; i++) {
+
       idx = fern[i];
       (C==1) ? pCounter[i][idx] += N : nCounter[i][idx] += N;
+
+
       if (pCounter[i][idx]==0) {
+
           posteriors[i][idx] = 0;
+
       } else {
+          //cout<<"node2<<__"<<(pCounter[i][idx] + nCounter[i][idx])<<endl;
           posteriors[i][idx] = ((float)(pCounter[i][idx]))/(pCounter[i][idx] + nCounter[i][idx]);
+          //cout<<"node2>>"<<endl;
       }
+
   }
 }
 
@@ -102,7 +110,9 @@ void FerNNClassifier::trainF(const vector<std::pair<vector<int>,int> >& ferns,in
                                                             //       double *x = X+nTREES*I; //tree index
           if(ferns[i].second==1){                           //       if (Y[I] == 1) {
               if(measure_forest(ferns[i].first)<=thrP)      //         if (measure_forest(x) <= thrP)
-                update(ferns[i].first,1,1);                 //             update(x,1,1);
+                  //cout<<"node1>>"<<endl;
+                  update(ferns[i].first,1,1);                 //             update(x,1,1);
+                  //cout<<"node1<<"<<endl;
           }else{                                            //        }else{
               if (measure_forest(ferns[i].first) >= thrN)   //         if (measure_forest(x) >= thrN)
                 update(ferns[i].first,0,1);                 //             update(x,0,1);
@@ -159,6 +169,8 @@ void FerNNClassifier::NNConf(const Mat& example, vector<int>& isin,float& rsconf
   float nccN, maxN=0;
   bool anyN=false;
   for (int i=0;i<pEx.size();i++){
+      //cout<<pEx[i].size()<<endl;
+      //cout<<pEx[i].type()<<" "<<example.type()<<" "<<CV_8U<<" "<<CV_32F<<endl;
       matchTemplate(pEx[i],example,ncc,CV_TM_CCORR_NORMED);      // measure NCC to positive examples
       nccP=(((float*)ncc.data)[0]+1)*0.5;
       if (nccP>ncc_thesame)
@@ -213,6 +225,7 @@ void FerNNClassifier::show(){
   Mat examples((int)pEx.size()*pEx[0].rows,pEx[0].cols,CV_8U);
   double minval;
   Mat ex(pEx[0].rows,pEx[0].cols,pEx[0].type());
+  //cout<<"showtype: "<<pEx[0].type()<<endl;
   for (int i=0;i<pEx.size();i++){
     minMaxLoc(pEx[i],&minval);
     pEx[i].copyTo(ex);
@@ -228,13 +241,63 @@ void FerNNClassifier::saveNN(string file)
     filename<<file<<".yml";
 
     FileStorage fs(filename.str(),FileStorage::WRITE);
+    fs<<"thr_nn"<<(float)thr_nn;
+    fs<<"thr_nn_valid"<<(float)thr_nn_valid;
     fs<<"pExSize"<<(int)pEx.size();
+    fs<<"nExSize"<<(int)nEx.size();
+    //fs<<"patchSize";
+    //fs<<"{";
+    fs<<"rows"<<(int)pEx[0].rows;
+    fs<<"cols"<<(int)pEx[0].cols;
+    //fs<<"}";
+
     for(int i=0;i<pEx.size();i++)
     {
         ostringstream label;
-        label<<"pEx"<<i<<".jpg";
-        imwrite(label.str(),pEx[i]);
+        label<<"pEx"<<i;
+        fs<<label.str();
+        fs<<"[";
+
+        for(int irow=0;irow<pEx[0].rows;irow++)
+            for(int icol=0;icol<pEx[0].cols;icol++)
+            {
+                fs<<pEx[i].at<float>(irow,icol);
+            }
+
+        fs<<"]";
     }
+
+    for(int i=0;i<nEx.size();i++)
+    {
+        ostringstream label;
+        label<<"nEx"<<i;
+        fs<<label.str();
+        fs<<"[";
+
+        for(int irow=0;irow<nEx[0].rows;irow++)
+            for(int icol=0;icol<nEx[0].cols;icol++)
+            {
+                fs<<nEx[i].at<float>(irow,icol);
+            }
+
+        fs<<"]";
+    }
+
+    //for(int i=0;i<;i++)
+
+//    for(int i=0;i<pEx.size();i++)
+//    {
+//        ostringstream label;
+//        label<<"pEx"<<i<<".jpg";
+//        //Mat tempPEx;
+//        //pEx[i].convertTo(tempPEx,CV_8UC1);
+//        vector<int> compress;
+//        compress.push_back(CV_IMWRITE_JPEG_QUALITY);
+//        compress.push_back(100);
+//        //pEx[i].convertTo(pEx[i],CV_8U);
+//        imwrite(label.str(),pEx[i],compress);
+//    }
+
 //    inwrite
 //    fs<<"pEx"<<"[";
 //    for(int i=0;i<pEx.size();i++)
@@ -248,13 +311,15 @@ void FerNNClassifier::saveNN(string file)
 //    }
 //    fs<<"]";
 
-    fs<<"nExSize"<<(int)nEx.size();
-    for(int i=0;i<nEx.size();i++)
-    {
-        ostringstream label;
-        label<<"nEx"<<i<<".jpg";
-        imwrite(label.str(),nEx[i]);
-    }
+//    fs<<"nExSize"<<(int)nEx.size();
+//    for(int i=0;i<nEx.size();i++)
+//    {
+//        ostringstream label;
+//        label<<"nEx"<<i<<".jpg";
+//        imwrite(label.str(),nEx[i]);
+//    }
+
+
     fs.release();
 
 
@@ -265,18 +330,22 @@ void FerNNClassifier::saveFern(string file)
     ostringstream filename;
     filename<<file<<".yml";
     FileStorage fs(filename.str(),FileStorage::WRITE);
+    //threshold
+    fs<<"thr_fern"<<thr_fern;
     //feature output
     fs<<"feature_table";
-    fs<<"{";
+    fs<<"{";//feature_table{
     fs<<"dim1"<<(int)features.size();
     fs<<"dim2"<<(int)features[0].size();
 
+
+    fs<<"features"<<"[";
     for(int i=0;i<features.size();i++)
         for(int j=0;j<features[0].size();j++)
         {
-            ostringstream index;
-            index<<"feature"<<i<<j;
-            fs<<index.str();
+            //ostringstream index;
+            //index<<"feature"<<i<<j;
+            //fs<<index.str();
             fs<<"{";
             fs<<"x1"<<features[i][j].x1;
             fs<<"x2"<<features[i][j].x2;
@@ -284,50 +353,67 @@ void FerNNClassifier::saveFern(string file)
             fs<<"y2"<<features[i][j].y1;
             fs<<"}";
         }
-    fs<<"}";
+    fs<<"]";//features}
+    fs<<"}";//feature_table}
 
-    fs<<"posteriors";
-    fs<<"{";
+    fs<<"posterior_table";
+    fs<<"{";//[posterior_table
     fs<<"dim1"<<(int)posteriors.size();
     fs<<"dim2"<<(int)posteriors[0].size();
+    fs<<"posteriors";
+    fs<<"[";
     for(int i=0;i<posteriors.size();i++)
         for(int j=0;j<posteriors[0].size();j++)
         {
-            ostringstream index;
-            index<<"posterior"<<i<<j;
-            fs<<index.str();
+            //fs<<"{";
+            //ostringstream index;
+            //index<<"posterior"<<i<<j;
+            //fs<<index.str();
             fs<<posteriors[i][j];
+            //fs<<"}";
         }
-    fs<<"}";
+    fs<<"]";
+    fs<<"}";//"]"posterior_table
 
 
-    fs<<"pCounter";
-    fs<<"{";
+    fs<<"pCounter_table";
+    fs<<"{";//pCounter_table
     fs<<"dim1"<<(int)pCounter.size();
     fs<<"dim2"<<(int)pCounter[0].size();
+    fs<<"pCounters";
+    fs<<"[";
     for(int i=0;i<pCounter.size();i++)
         for(int j=0;j<pCounter[0].size();j++)
         {
-            ostringstream index;
-            index<<"pCount"<<i<<j;
-            fs<<index.str();
+            //fs<<"{";
+            //ostringstream index;
+            //index<<"posterior"<<i<<j;
+            //fs<<index.str();
             fs<<pCounter[i][j];
+            //fs<<"}";
         }
-    fs<<"}";
+    fs<<"]";
+    fs<<"}";//pCounter_table
 
-    fs<<"nCounter";
-    fs<<"{";
+
+    fs<<"nCounter_table";
+    fs<<"{";//nCounter_table
     fs<<"dim1"<<(int)nCounter.size();
     fs<<"dim2"<<(int)nCounter[0].size();
+    fs<<"nCounters";
+    fs<<"[";
     for(int i=0;i<nCounter.size();i++)
         for(int j=0;j<nCounter[0].size();j++)
         {
-            ostringstream index;
-            index<<"nCount"<<i<<j;
-            fs<<index.str();
+            //fs<<"{";
+            //ostringstream index;
+            //index<<"posterior"<<i<<j;
+            //fs<<index.str();
             fs<<nCounter[i][j];
+            //fs<<"}";
         }
-    fs<<"}";
+    fs<<"]";
+    fs<<"}";//nCounter_table
 
 //    fs<<"posteriors"<<posteriors;
 //    fs<<"pCounter"<<pCounter;
@@ -342,9 +428,64 @@ void FerNNClassifier::loadNN(string file)
     FileStorage fs;
     fs.open(filename.str(), FileStorage::READ);
 
-    cout<<"pExSize: "<<(int)fs["pExSize"]<<endl;
-    cout<<"nExSize: "<<(int)fs["nExSize"]<<endl;
 
+    int pExSize=(int)fs["pExSize"];
+    int nExSize=(int)fs["nExSize"];
+    //thr_nn=(float)fs["thr_nn"];
+    //thr_nn_valid=(float)fs["thr_nn_valid"];
+
+    cout<<"pExSize: "<<pExSize<<endl;
+    cout<<"nExSize: "<<nExSize<<endl;
+    cout<<"thr_nn_valid: "<<thr_nn_valid<<endl;
+    cout<<"thr_nn: "<<thr_nn<<endl;
+
+    pEx.resize(pExSize);
+    nEx.resize(nExSize);
+
+    int patchRows=(int)fs["rows"];
+    int patchCols=(int)fs["cols"];
+    //cout<<"patchRows"<<patchRows<<endl;
+
+    for(int i=0;i<pExSize;i++)
+    {
+        ostringstream label;
+        label<<"pEx"<<i;
+        FileNode pixelnode=fs[label.str()];
+        FileNodeIterator it=pixelnode.begin();
+
+        pEx[i].create(patchRows,patchCols,CV_32F);
+
+        for(int irow=0;irow<patchRows;irow++)
+        {
+            for(int icol=0;icol<patchCols;icol++)
+            {
+                pEx[i].at<float>(irow,icol)=(float)(*it);
+                //cout<<pEx[i].at<float>(irow,icol);
+                it++;
+            }
+        }
+    }
+
+
+    for(int i=0;i<nExSize;i++)
+    {
+        ostringstream label;
+        label<<"nEx"<<i;
+        FileNode pixelnode=fs[label.str()];
+        FileNodeIterator it=pixelnode.begin();
+
+        nEx[i].create(patchRows,patchCols,CV_32F);
+
+        for(int irow=0;irow<patchRows;irow++)
+        {
+            for(int icol=0;icol<patchCols;icol++)
+            {
+                nEx[i].at<float>(irow,icol)=(float)(*it);
+                //cout<<nEx[i].at<float>(irow,icol);
+                it++;
+            }
+        }
+    }
 //    FileNode pExnode=fs["pEx"];
 //    FileNodeIterator it = pExnode.begin();
 
@@ -352,16 +493,141 @@ void FerNNClassifier::loadNN(string file)
 //    {
 //        //cout<<(Mat)(*it)<<endl;
 //    }
-//    for(int i=0;i<pEx.size();i++)
+
+    //namedWindow("1",WINDOW_NORMAL);
+
+    //Mat sizePatch=imread("pEx0.jpg",0);
+    //tmppatch.create(sizePatch.rows,sizePatch.cols,CV_32F);
+//    for(int i=0;i<pExSize;i++)
 //    {
-//        //ostringstream label;
-//        //label<<"pEx"<<i;
+//        ostringstream label;
+//        label<<"pEx"<<i<<".jpg";
+//        Mat tmppatch1=imread(label.str(),0);
+//        //imshow("1",tmppatch1);
+//        tmppatch1.convertTo(pEx[i],CV_32F);
+//        //Mat tmppatch2;
+//        //tmppatch.convertTo(tmppatch2,CV_8U);
+//        //tmppatch1.copyTo(tmppatch);
+//        //tmppatch.at<float>(0,0)=1;
+//        //imshow("2",tmppatch2);
+
+//        //pEx.push_back(tmppatch);
 //        //fs<<label.str()<<pEx[i];
 //    }
+
+//    cout<<pEx[0]<<endl;
+
+//    for(int i=0;i<nExSize;i++)
+//    {
+//        ostringstream label;
+//        label<<"nEx"<<i<<".jpg";
+//        Mat tmppatch1=imread(label.str(),0);
+//        tmppatch1.convertTo(nEx[i],CV_32F);
+//        //nEx.push_back(tmppatch);
+//    }
+
+//    namedWindow("1",WINDOW_NORMAL);
+//    Mat showimg;
+//    pEx[0].convertTo(showimg,CV_8U);
+//    imshow("1",showimg);
+
+
+
+    //show();
     fs.release();
 }
 
 void FerNNClassifier::loadFern(string file)
 {
+    ostringstream filename;
+    filename<<file<<".yml";
+    FileStorage fs;
+    fs.open(filename.str(), FileStorage::READ);
+    FileNode featuretable=fs["feature_table"];
+    int dim1=featuretable["dim1"];
+    int dim2=featuretable["dim2"];
+    FileNode featurenode=featuretable["features"];
+    FileNodeIterator it=featurenode.begin();
+    thr_fern=fs["thr_fern"];
+    cout<<"thr_fern: "<<thr_fern<<endl;
+
+    features = vector<vector<Feature> >(dim1,vector<Feature> (dim2));
+
+    for(int i=0;i<dim1;i++)
+        for(int j=0;j<dim2;j++)
+        {
+
+            int x1=(int)(*it)["x1"];
+            int y1=(int)(*it)["y1"];
+            int x2=(int)(*it)["x2"];
+            int y2=(int)(*it)["y2"];
+            features[i][j]=Feature(x1, y1, x2, y2);
+            //cout<<x1<<endl;
+            it++;
+            if(it==featurenode.end())
+                break;
+        }
+
+
+
+    FileNode posteriorstable=fs["posterior_table"];
+    dim1=posteriorstable["dim1"];
+    dim2=posteriorstable["dim2"];
+    posteriors = vector<vector<float> >(dim1,vector<float> (dim2));
+    FileNode posteriornode=posteriorstable["posteriors"];
+    it=posteriornode.begin();
+
+    for(int i=0;i<dim1;i++)
+        for(int j=0;j<dim2;j++)
+        {
+            posteriors[i][j]=(float)(*it);
+            //cout<<(float)(*it)<<endl;
+            it++;
+            if(it==posteriornode.end())
+                break;
+        }
+
+
+
+    FileNode pCountertable=fs["pCounter_table"];
+    dim1=pCountertable["dim1"];
+    dim2=pCountertable["dim2"];
+    pCounter = vector<vector<int> >(dim1,vector<int> (dim2));
+    FileNode pCounternode=pCountertable["pCounters"];
+    it=pCounternode.begin();
+
+    for(int i=0;i<dim1;i++)
+        for(int j=0;j<dim2;j++)
+        {
+            pCounter[i][j]=(int)(*it);
+            //cout<<(int)(*it)<<endl;
+            it++;
+            if(it==pCounternode.end())
+                break;
+        }
+
+
+
+    FileNode nCountertable=fs["nCounter_table"];
+    dim1=nCountertable["dim1"];
+    dim2=nCountertable["dim2"];
+    nCounter = vector<vector<int> >(dim1,vector<int> (dim2));
+    FileNode nCounternode=nCountertable["nCounters"];
+    it=nCounternode.begin();
+
+    for(int i=0;i<dim1;i++)
+        for(int j=0;j<dim2;j++)
+        {
+            nCounter[i][j]=(int)(*it);
+            //cout<<(int)(*it)<<endl;
+            it++;
+            if(it==nCounternode.end())
+                break;
+        }
+
+    thrN = 0.5*nstructs;
+
+
+
 
 }

@@ -44,6 +44,10 @@ void TLD::read(const FileNode& file){
 }
 
 void TLD::init(const Mat& frame1,const Rect& box,FILE* bb_file){
+
+    cout<<"init"<<endl;
+    imgSize=frame1.size();//save camera size
+    target=box;
   //bb_file = fopen("bounding_boxes.txt","w");
   //Get Bounding Boxes
     buildGrid(frame1,box);
@@ -238,8 +242,10 @@ void TLD::processFrame(const cv::Mat& img1,const cv::Mat& img2,vector<Point2f>& 
   }
   ///Detect
   detect(img2);
+
   ///Integration
   if (tracked){
+
       bbnext=tbb;
       lastconf=tconf;
       lastvalid=tvalid;
@@ -427,7 +433,9 @@ void TLD::detect(const cv::Mat& frame){
   int a=0;
   Mat patch;
   for (int i=0;i<grid.size();i++){//FIXME: BottleNeck
+      //cout<<i<<": "<<getVar(grid[i],iisum,iisqsum);
       if (getVar(grid[i],iisum,iisqsum)>=var){
+
           a++;
 		  patch = img(grid[i]);
           classifier.getFeatures(patch,grid[i].sidx,ferns);
@@ -441,6 +449,7 @@ void TLD::detect(const cv::Mat& frame){
       else
         tmp.conf[i]=0.0;
   }
+
   int detections = dt.bb.size();
   printf("%d Bounding boxes passed the variance filter\n",a);
   printf("%d Initial detection from Fern Classifier\n",detections);
@@ -460,20 +469,27 @@ void TLD::detect(const cv::Mat& frame){
   printf("Fern detector made %d detections ",detections);
   t=(double)getTickCount()-t;
   printf("in %gms\n", t*1000/getTickFrequency());
-                                                                       //  Initialize detection structure
+
+  //  Initialize detection structure
   dt.patt = vector<vector<int> >(detections,vector<int>(10,0));        //  Corresponding codes of the Ensemble Classifier
   dt.conf1 = vector<float>(detections);                                //  Relative Similarity (for final nearest neighbour classifier)
   dt.conf2 =vector<float>(detections);                                 //  Conservative Similarity (for integration with tracker)
   dt.isin = vector<vector<int> >(detections,vector<int>(3,-1));        //  Detected (isin=1) or rejected (isin=0) by nearest neighbour classifier
   dt.patch = vector<Mat>(detections,Mat(patch_size,patch_size,CV_32F));//  Corresponding patches
   int idx;
+
   Scalar mean, stdev;
   float nn_th = classifier.getNNTh();
+
+  //patch = frame(grid[dt.bb[0]]);
+  //imshow("patch",patch);
+
   for (int i=0;i<detections;i++){                                         //  for every remaining detection
       idx=dt.bb[i];                                                       //  Get the detected bounding box index
 	  patch = frame(grid[idx]);
       getPattern(patch,dt.patch[i],mean,stdev);                //  Get pattern within bounding box
       classifier.NNConf(dt.patch[i],dt.isin[i],dt.conf1[i],dt.conf2[i]);  //  Evaluate nearest neighbour classifier
+      //cout<<"conf1: "<<dt.conf1[i]<<" nn_th: "<<nn_th<<endl;
       dt.patt[i]=tmp.patt[idx];
       //printf("Testing feature %d, conf:%f isin:(%d|%d|%d)\n",i,dt.conf1[i],dt.isin[i][0],dt.isin[i][1],dt.isin[i][2]);
       if (dt.conf1[i]>nn_th){                                               //  idx = dt.conf1 > tld.model.thr_nn; % get all indexes that made it through the nearest neighbour
@@ -481,6 +497,7 @@ void TLD::detect(const cv::Mat& frame){
           dconf.push_back(dt.conf2[i]);                                     //  Conf  = dt.conf2(:,idx); % conservative confidences
       }
   }                                                                         //  end
+
   if (dbb.size()>0){
       printf("Found %d NN matches\n",(int)dbb.size());
       detected=true;
@@ -531,6 +548,7 @@ void TLD::learn(const Mat& img){
   good_boxes.clear();
   bad_boxes.clear();
   getOverlappingBoxes(lastbox,num_closest_update);
+
   if (good_boxes.size()>0)
     generatePositiveData(img,num_warps_update);
   else{
@@ -538,6 +556,7 @@ void TLD::learn(const Mat& img){
     printf("No good boxes..Not training");
     return;
   }
+
   fern_examples.reserve(pX.size()+bad_boxes.size());
   fern_examples.assign(pX.begin(),pX.end());
   int idx;
@@ -550,14 +569,18 @@ void TLD::learn(const Mat& img){
   vector<Mat> nn_examples;
   nn_examples.reserve(dt.bb.size()+1);
   nn_examples.push_back(pEx);
+
   for (int i=0;i<dt.bb.size();i++){
       idx = dt.bb[i];
       if (bbOverlap(lastbox,grid[idx]) < bad_overlap)
         nn_examples.push_back(dt.patch[i]);
   }
+  cout<<"node<<"<<endl;
   /// Classifiers update
   classifier.trainF(fern_examples,2);
+  cout<<"node>>"<<endl;
   classifier.trainNN(nn_examples);
+
   classifier.show();
 }
 
@@ -777,12 +800,76 @@ void TLD::clusterConf(const vector<BoundingBox>& dbb,const vector<float>& dconf,
 
 int TLD::saveModel()
 {
-    //classifier.saveFern("fern");
+    classifier.saveFern("Fern");
     classifier.saveNN("NN");
+    saveTLDPara("TLD");
     return 0;
 }
 
 int TLD::loadModel()
 {
+    classifier.loadFern("Fern");
+    classifier.loadNN("NN");
+    loadTLDPara("TLD");
+    classifier.show();
     return 0;
+}
+void TLD::initModel()
+{
+    Mat temp;
+    temp.create(imgSize,CV_8UC1);
+    buildGrid(temp,target);
+
+    iisum.create(imgSize.height+1,imgSize.width+1,CV_32F);//integral pattern
+    iisqsum.create(imgSize.height+1,imgSize.width+1,CV_64F);//squre
+    tmp.conf = vector<float>(grid.size());// confidence
+    tmp.patt = vector<vector<int> >(grid.size(),vector<int>(10,0));//binary feature code
+    dt.bb.reserve(grid.size());
+
+    good_boxes.reserve(grid.size());
+    bad_boxes.reserve(grid.size());
+    pEx.create(patch_size,patch_size,CV_64F);
+
+    generator = PatchGenerator (0,0,noise_init,true,1-scale_init,1+scale_init,-angle_init*CV_PI/180,angle_init*CV_PI/180,-angle_init*CV_PI/180,angle_init*CV_PI/180);
+}
+
+void TLD::saveTLDPara(string file)
+{
+    ostringstream filename;
+    filename<<file<<".yml";
+    FileStorage fs;
+    fs.open(filename.str(), FileStorage::WRITE);
+    fs<<"box";
+    fs<<"{";
+    fs<<"x"<<target.x;
+    fs<<"y"<<target.y;
+    fs<<"width"<<target.width;
+    fs<<"height"<<target.height;
+    fs<<"}";
+    fs<<"imgSize";
+    fs<<"{";
+    fs<<"width"<<imgSize.width;
+    fs<<"height"<<imgSize.height;
+    fs<<"}";
+    fs<<"var";
+    fs<<var;
+    fs.release();
+}
+void TLD::loadTLDPara(string file)
+{
+    ostringstream filename;
+    filename<<file<<".yml";
+    FileStorage fs;
+    fs.open(filename.str(), FileStorage::READ);
+    FileNode boxnode=fs["box"];
+    target.x=(int)boxnode["x"];
+    target.y=(int)boxnode["y"];
+    target.height=(int)boxnode["height"];
+    target.width=(int)boxnode["width"];
+    FileNode imgSizenode=fs["imgSize"];
+    imgSize.width=imgSizenode["width"];
+    imgSize.height=imgSizenode["height"];
+    var=fs["var"];
+    fs.release();
+
 }

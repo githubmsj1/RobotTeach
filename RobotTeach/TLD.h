@@ -7,6 +7,7 @@
 #include <LKTracker.h>
 #include <FerNNClassifier.h>
 #include <fstream>
+#include <string>
 
 
 //Bounding Boxes
@@ -105,6 +106,8 @@ private:
   std::vector<bool> dvalid;
   std::vector<float> dconf;
   bool detected;
+  cv::Rect target;
+  cv::Size imgSize;
 
 
   //Bounding Boxes
@@ -145,6 +148,9 @@ public:
   int clusterBB(const std::vector<BoundingBox>& dbb,std::vector<int>& indexes);
   int saveModel();
   int loadModel();
+  void initModel();
+  void saveTLDPara(std::string name);
+  void loadTLDPara(std::string name);
 };
 
 #endif

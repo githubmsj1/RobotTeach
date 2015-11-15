@@ -21,8 +21,10 @@ bool tl = true;//track or not
 bool rep = false;
 bool fromfile=false;
 string video;
-
-
+enum mode{learnMode,recognizeMode};
+enum targetAquireMode{motionMode,mouseMode};
+mode tldMode=learnMode;
+targetAquireMode roiMode=mouseMode;
 //read the imformation of initial box
 void readBB(char* file){
   ifstream bb_file (file);
@@ -72,7 +74,7 @@ void mouseHandler(int event, int x, int y, int flags, void *param){
 
 int main(int argc, char * argv[])
 {
-    cout<<"fuck"<<endl;
+
 
     VideoCapture capture;
     if(argc>1)
@@ -114,6 +116,7 @@ int main(int argc, char * argv[])
     capture.set(CV_CAP_PROP_FRAME_HEIGHT,240);
 
     namedWindow("Intelisu",CV_WINDOW_NORMAL);//CV_WINDOW_AUTOSIZE
+    namedWindow("Examples",WINDOW_NORMAL);
     setMouseCallback( "Intelisu", mouseHandler, NULL );
 
     TLD tld;
@@ -145,35 +148,86 @@ int main(int argc, char * argv[])
     myupdate_mhi myupdate1;
     Rect result;
     Mat motion=Mat::zeros(frame.rows,frame.cols, CV_8UC1);
-    for(;;)
+
+    //load existing model
+    if((char)waitKey(-1)=='l')
     {
-            capture>>frame;
-            IplImage pframe(frame);
-            IplImage pmotion(motion);
+        tld.loadModel();
+        tld.initModel();
 
-            myupdate1.init( &pframe, &pmotion, 60 );
-            if(myupdate1.update_mhi(result)==0)
-			{
-				cout<<"x:"<<result.x+result.width/2<<"    "<<"y:"<<result.y+result.height/2<<endl;
-				rectangle(frame,result, Scalar(255,0,0));
-				break;
-			}
-			//resize(frame,frame,Size(3*round(frame.cols),3*round(frame.rows)));
+        tldMode=recognizeMode;
+        //waitKey(-1);
+        //return 0;
+    }
 
-            static unsigned char safeCount=0;
-            putText(frame,"Environment Safe",Point(20,20),FONT_HERSHEY_SIMPLEX,0.7,CV_RGB(0,safeCount,0),2);
-            safeCount+=16;
+    if(tldMode!=recognizeMode)
+    {
+        if(roiMode==motionMode)
+        {
 
-			imshow("Intelisu",frame);
-			waitKey(10);
+            for(;;)
+            {
+                    capture>>frame;
+                    IplImage pframe(frame);
+                    IplImage pmotion(motion);
 
+                    myupdate1.init( &pframe, &pmotion, 60 );
+                    if(myupdate1.update_mhi(result)==0)
+                    {
+                        cout<<"x:"<<result.x+result.width/2<<"    "<<"y:"<<result.y+result.height/2<<endl;
+                        rectangle(frame,result, Scalar(255,0,0));
+                        break;
+                    }
+                    //resize(frame,frame,Size(3*round(frame.cols),3*round(frame.rows)));
+
+                    static unsigned char safeCount=0;
+                    putText(frame,"Environment Safe",Point(20,20),FONT_HERSHEY_SIMPLEX,0.7,CV_RGB(0,safeCount,0),2);
+                    safeCount+=16;
+
+                    imshow("Intelisu",frame);
+                    waitKey(10);
+
+            }
+        }
+        else
+        {
+            cvSetMouseCallback( "Intelisu", mouseHandler, NULL );
+            for(;;)
+            {
+                while(!gotBB)
+                {
+                  if (!fromfile){
+                    capture >> frame;
+                  }
+                  else
+                    first.copyTo(frame);
+                  //cvtColor(frame, last_gray, CV_RGB2GRAY);
+                  drawBox(frame,box);
+                  imshow("Intelisu", frame);
+                  if (cvWaitKey(33) == 'q')
+                      return 0;
+                }
+
+                if (min(box.width,box.height)<15){
+                    cout << "Bounding box too small, try again." << endl;
+                    gotBB = false;
+                }
+                else
+                {
+                    result=box;
+                    break;
+
+                }
+            }
+            cvSetMouseCallback( "Intelisu", NULL, NULL );
+        }
     }
 
     cvtColor(frame, last_gray, CV_RGB2GRAY);
     //waitKey(-1);
 
-    //Remove callback
-    cvSetMouseCallback( "Intelisu", NULL, NULL );
+//    //Remove callback
+//    cvSetMouseCallback( "Intelisu", NULL, NULL );
 
     //open the output file
     FILE  *bb_file = fopen("bounding_boxes.txt","w");
@@ -181,17 +235,28 @@ int main(int argc, char * argv[])
 
     //TLD initialization
     //tld.init(last_gray,box,bb_file);
-    tld.init(last_gray,result,bb_file);
+    if(tldMode==learnMode)
+    {
 
+        tld.init(last_gray,result,bb_file);
+
+    }else
+    {
+        tld.initModel();
+    }
     //runtime variable
     Mat current_gray;
     BoundingBox pbox;
     vector<Point2f> pts1;
     vector<Point2f> pts2;
-    bool status=true;
+    bool status=true;//if model is loaded,detect default
     int frames = 1;
     int detections = 1;
 
+    if(tldMode==recognizeMode)
+    {
+        status=false;
+    }
     while(capture.read(frame)){
 
             //<<<<<<<<<<<<<<

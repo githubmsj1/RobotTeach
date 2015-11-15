@@ -20,6 +20,7 @@ private:
   float ncc_thesame;
   float thr_nn;
   int acum;
+  cv::Mat tmppatch;
 public:
   //Parameters
   float thr_nn_valid;
@@ -40,7 +41,8 @@ public:
   void saveFern(std::string name);
   void loadNN(std::string name);
   void loadFern(std::string name);
-
+  void initPara();
+    
   //Ferns Members
   int getNumStructs(){return nstructs;}
   float getFernTh(){return thr_fern;}
@@ -64,6 +66,7 @@ public:
   //NN Members
   std::vector<cv::Mat> pEx; //NN positive examples
   std::vector<cv::Mat> nEx; //NN negative examples
+
 
 };
 #endif
