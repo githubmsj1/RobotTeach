@@ -146,8 +146,8 @@ public:
   double getVar(const BoundingBox& box,const cv::Mat& sum,const cv::Mat& sqsum);
   bool bbComp(const BoundingBox& bb1,const BoundingBox& bb2);
   int clusterBB(const std::vector<BoundingBox>& dbb,std::vector<int>& indexes);
-  int saveModel();
-  int loadModel();
+  int saveModel(std::string filename);
+  int loadModel(std::string filename);
   void initModel();
   void saveTLDPara(std::string name);
   void loadTLDPara(std::string name);

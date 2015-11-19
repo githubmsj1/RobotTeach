@@ -798,19 +798,38 @@ void TLD::clusterConf(const vector<BoundingBox>& dbb,const vector<float>& dconf,
   printf("\n");
 }
 
-int TLD::saveModel()
+int TLD::saveModel(string fileName)
 {
-    classifier.saveFern("Fern");
-    classifier.saveNN("NN");
-    saveTLDPara("TLD");
+    string fernName;
+    string nnName;
+    string TLDName;
+
+    fernName=fileName+"Fern";
+    nnName=fileName+"NN";
+    TLDName=fileName+"TLD";
+
+    cout<<"FileName: "<<fernName<<" "<<nnName<<" "<<TLDName<<endl;
+    classifier.saveFern(fernName);
+    classifier.saveNN(nnName);
+    saveTLDPara(TLDName);
     return 0;
 }
 
-int TLD::loadModel()
+int TLD::loadModel(string fileName)
 {
-    classifier.loadFern("Fern");
-    classifier.loadNN("NN");
-    loadTLDPara("TLD");
+
+    string fernName;
+    string nnName;
+    string TLDName;
+
+    fernName=fileName+"Fern";
+    nnName=fileName+"NN";
+    TLDName=fileName+"TLD";
+
+    cout<<"FileName: "<<fernName<<" "<<nnName<<" "<<TLDName<<endl;
+    classifier.loadFern(fernName);
+    classifier.loadNN(nnName);
+    loadTLDPara(TLDName);
     classifier.show();
     return 0;
 }

@@ -376,11 +376,17 @@ int main(int argc, char * argv[])
             if(handCalibrate==true)
             {
                 if(keyValue=='i')
-                {}
+                {
+                    
+                }
                 if(keyValue=='o')
-                {}
+                {
+                    
+                }
                 if(keyValue=='p')
-                {}
+                {
+                    
+                }
                 if(keyValue=='j')
                 {}
             }

@@ -56,7 +56,8 @@ unix:!macx: PRE_TARGETDEPS += $$PWD/../lib/libtld_utils.a
 SOURCES += \
     gaussian.cpp \
     serial.cpp \
-    intelisu.cpp
+    intelisu.cpp \
+    maptwod.cpp
 
 DISTFILES += \
     parameters.yml \
@@ -70,7 +71,8 @@ HEADERS += \
     TLD.h \
     FerNNClassifier.h \
     LKTracker.h \
-    tld_utils.h
+    tld_utils.h \
+    maptwod.h
 
 INCLUDEPATH +=/usr/local/include/opencv\
 /usr/local/include

@@ -50,10 +50,12 @@ OBJECTS_DIR   = ./
 
 SOURCES       = gaussian.cpp \
 		serial.cpp \
-		intelisu.cpp 
+		intelisu.cpp \
+		maptwod.cpp 
 OBJECTS       = gaussian.o \
 		serial.o \
-		intelisu.o
+		intelisu.o \
+		maptwod.o
 DIST          = parameters.yml \
 		RobotTeach.pro.user \
 		../build-RobotTeach-Desktop_Qt_5_5_1_GCC_32bit-Release/Makefile \
@@ -195,9 +197,11 @@ DIST          = parameters.yml \
 		TLD.h \
 		FerNNClassifier.h \
 		LKTracker.h \
-		tld_utils.h gaussian.cpp \
+		tld_utils.h \
+		maptwod.h gaussian.cpp \
 		serial.cpp \
-		intelisu.cpp
+		intelisu.cpp \
+		maptwod.cpp
 QMAKE_TARGET  = RobotTeach
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = RobotTeach
@@ -511,8 +515,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents gaussian.h serial.h TLD.h FerNNClassifier.h LKTracker.h tld_utils.h $(DISTDIR)/
-	$(COPY_FILE) --parents gaussian.cpp serial.cpp intelisu.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents gaussian.h serial.h TLD.h FerNNClassifier.h LKTracker.h tld_utils.h maptwod.h $(DISTDIR)/
+	$(COPY_FILE) --parents gaussian.cpp serial.cpp intelisu.cpp maptwod.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -680,6 +684,37 @@ intelisu.o: intelisu.cpp /usr/local/include/opencv2/opencv.hpp \
 		/usr/local/include/opencv/cxcore.h \
 		/usr/local/include/opencv/highgui.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o intelisu.o intelisu.cpp
+
+maptwod.o: maptwod.cpp maptwod.h \
+		/usr/local/include/opencv2/opencv.hpp \
+		/usr/local/include/opencv2/core/core_c.h \
+		/usr/local/include/opencv2/core/types_c.h \
+		/usr/local/include/opencv2/core/core.hpp \
+		/usr/local/include/opencv2/core/version.hpp \
+		/usr/local/include/opencv2/core/operations.hpp \
+		/usr/local/include/opencv2/core/mat.hpp \
+		/usr/local/include/opencv2/flann/miniflann.hpp \
+		/usr/local/include/opencv2/flann/defines.h \
+		/usr/local/include/opencv2/flann/config.h \
+		/usr/local/include/opencv2/imgproc/imgproc_c.h \
+		/usr/local/include/opencv2/imgproc/types_c.h \
+		/usr/local/include/opencv2/imgproc/imgproc.hpp \
+		/usr/local/include/opencv2/photo/photo.hpp \
+		/usr/local/include/opencv2/photo/photo_c.h \
+		/usr/local/include/opencv2/video/video.hpp \
+		/usr/local/include/opencv2/video/tracking.hpp \
+		/usr/local/include/opencv2/video/background_segm.hpp \
+		/usr/local/include/opencv2/features2d/features2d.hpp \
+		/usr/local/include/opencv2/objdetect/objdetect.hpp \
+		/usr/local/include/opencv2/calib3d/calib3d.hpp \
+		/usr/local/include/opencv2/core/affine.hpp \
+		/usr/local/include/opencv2/ml/ml.hpp \
+		/usr/local/include/opencv2/highgui/highgui_c.h \
+		/usr/local/include/opencv2/highgui/highgui.hpp \
+		/usr/local/include/opencv2/contrib/contrib.hpp \
+		/usr/local/include/opencv2/contrib/retina.hpp \
+		/usr/local/include/opencv2/contrib/openfabmap.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o maptwod.o maptwod.cpp
 
 ####### Install
 

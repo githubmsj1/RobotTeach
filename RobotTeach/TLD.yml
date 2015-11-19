@@ -1,10 +1,10 @@
 %YAML:1.0
 box:
-   x: 73
-   y: 35
-   width: 109
-   height: 133
+   x: 196
+   y: 63
+   width: 71
+   height: 45
 imgSize:
    width: 320
    height: 240
-var: 6.8713702392578125e+02
+var: 8.2212512207031250e+02
