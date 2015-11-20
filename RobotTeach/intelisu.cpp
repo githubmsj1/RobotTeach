@@ -1,4 +1,14 @@
 
+/*
+ * l: load model
+ * s: save model
+ * i: save s1
+ * o: save s2
+ * p: save s3
+ * j: save initial hand size
+ * ]: calculate acoef
+ * k: save the inital object size and calculate kSize
+*/
 #include <opencv2/opencv.hpp>
 #include <tld_utils.h>
 #include <iostream>
