@@ -2,6 +2,7 @@
 
 MapTwoD::MapTwoD()
 {
+
     objPoints.push_back(Point2f(0,0));
     objPoints.push_back(Point2f(0,100));
     objPoints.push_back(Point2f(100,0));
@@ -11,6 +12,7 @@ MapTwoD::MapTwoD()
     z2=1;
     z3=2;
 
+    //loadPara();
 
 }
 
@@ -19,7 +21,7 @@ int MapTwoD::numData()
     return imgPoints.size();
 }
 
-int MapTwoD::CalH()
+int MapTwoD::calH()
 {
     Mat H=findHomography(objPoints,imgPoints[imgPoints.size()-1],0);
     H.convertTo(H,CV_32F);
@@ -39,16 +41,16 @@ int MapTwoD::pushImgPoints(vector<Point2f>points)
 
 }
 
-int MapTwoD::CalKcoef()
+int MapTwoD::calKcoef()
 {
-    if(HVec.size()<3)
-    {
-        cerr<<"H matrix is not enough"<<endl;
-        return -1;
-    }
-    H1=HVec[0];
-    H2=HVec[1];
-    H3=HVec[2];
+//    if(HVec.size()<3)
+//    {
+//        cerr<<"H matrix is not enough"<<endl;
+//        return -1;
+//    }
+//    H1=HVec[0];
+//    H2=HVec[1];
+//    H3=HVec[2];
     Mat a1=(H2-H1)/(z2-z1);
     Mat a2=(H3-H2)/(z3-z2);
     kCoef=(a1+a2)/2;
@@ -56,22 +58,17 @@ int MapTwoD::CalKcoef()
     return 0;
 }
 
-int MapTwoD::pushHandSize(int handSize)
-{
-    handSizes.push_back(handSize);
-    return 0;
-}
 
-int MapTwoD::CalAcoef()
+int MapTwoD::calAcoef()
 {
-    if(handSizes.size()<3)
-    {
-        cerr<<"handsize is less than 3"<<endl;
-        return 0;
-    }
-    s1=handSizes[0];
-    s2=handSizes[1];
-    s3=handSizes[2];
+//    if(handSizes.size()<3)
+//    {
+//        cerr<<"handsize is less than 3"<<endl;
+//        return 0;
+//    }
+//    s1=handSizes[0];
+//    s2=handSizes[1];
+//    s3=handSizes[2];
 
     float a1=(z2-z1)/(float)(s2-s1);
     float a2=(z3-z2)/(float)(s3-s2);
@@ -116,7 +113,8 @@ int MapTwoD::savePara()
     fs<<"s3"<<s3;
 
     fs<<"kSize"<<kSize;
-
+    fs<<"objSize0"<<objSize0;
+    fs<<"handSize0"<<handSize0;
 
 
     fs.release();
@@ -128,7 +126,14 @@ int MapTwoD::loadPara()
 {
     FileStorage fs;
 
+
     fs.open(FILEPATH, FileStorage::READ);
+
+    if(fs.isOpened()==false)
+    {
+        fs.release();
+        return -1;
+    }
 
     fs["kCoef"]>>kCoef;
 
@@ -144,6 +149,9 @@ int MapTwoD::loadPara()
     fs["H3"]>>H3;
 
     fs["kSize"]>>kSize;
+    fs["objSize0"]>>objSize0;
+    fs["handSize0"]>>handSize0;
+
 
     fs.release();
 
@@ -159,4 +167,39 @@ int MapTwoD::print()
 
     return 0;
 
+}
+
+int MapTwoD::pushObjectSize(int ObjSize)
+{
+    objSize0=ObjSize;
+    return 0;
+}
+
+int MapTwoD::pushHandSize(int handSize)
+{
+    handSize0=handSize;
+    return 0;
+}
+
+int MapTwoD::calkSize()
+{
+    kSize=((float)handSize0)/((float)objSize0);
+}
+
+int MapTwoD::setS(int s,int index)
+{
+
+    if(index==1)
+    {
+        s1=s;
+    }
+    if(index==2)
+    {
+        s2=s;
+    }
+    if(index==3)
+    {
+        s3=s;
+    }
+    return 0;
 }

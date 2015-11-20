@@ -15,12 +15,16 @@ public:
     int loadPara();
     int savePara();
     int map(Point3f src,Point3f dst);
-    int CalH();
-    int CalKcoef();
+    int calH();
+    int calKcoef();
     int pushImgPoints(vector<Point2f>points);
 
-    int pushHandSize(int handSize);
-    int CalAcoef();
+    int pushHandSize(int objSize);
+    int pushObjectSize(int handSize);
+    int calAcoef();
+    int calkSize();
+
+    int setS(int s,int index);
 
     int numData();
     int print();

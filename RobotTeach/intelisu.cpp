@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include "serial.h"
 #include "gaussian.h"
+#include <maptwod.h>
 
 using namespace cv;
 using namespace std;
@@ -22,6 +23,7 @@ bool rep = false;
 bool fromfile=false;
 string video;
 bool handCalibrate=false;
+bool
 
 enum mode{learnMode,recognizeMode};
 enum targetAquireMode{motionMode,mouseMode};
@@ -138,6 +140,8 @@ int main(int argc, char * argv[])
 
     TLD tld;
     tld.read(fs.getFirstTopLevelNode());
+    MapTwoD mptd;
+    mptd.loadPara();
     Mat frame;
     Mat last_gray;
     Mat first;
@@ -373,16 +377,40 @@ int main(int argc, char * argv[])
             break;
         }
         else {
-            if(handCalibrate==true)
+            if(handCalibrate==true)//calibrate the handsize map to the z-axis
             {
-                if(keyValue=='i')
-                {}
-                if(keyValue=='o')
-                {}
-                if(keyValue=='p')
-                {}
-                if(keyValue=='j')
-                {}
+                if(keyValue=='i')//record the hand size of first panel
+                {
+                    mptd.setS(pbox.width,1);
+                    mptd.savePara();
+                    cout<<"save s1..."<<endl;
+                }
+                if(keyValue=='o')//record the hand size of second panel
+                {
+                    mptd.setS(pbox.width,2);
+                    mptd.savePara();
+                    cout<<"save s2..."<<endl;
+                }
+                if(keyValue=='p')//record the hand size of third panel
+                {
+                    mptd.setS(pbox.width,3);
+                    mptd.savePara();
+                    cout<<"save s3..."<<endl;
+                }
+                if(keyValue=='j')//record the inital handsize
+                {
+                    mptd.pushHandSize(pbox.width);
+                    mptd.savePara();
+                    cout<<"save s0..."<<endl;
+                }
+
+            }
+            if(keyValue=='k')//record the inital object size and calculate the ksize
+            {
+                mptd.pushObjectSize(pbox.width);
+                mptd.calkSize();
+                mptd.savePara();
+                cout<<"save obj0..."<<endl;
             }
         }
 
