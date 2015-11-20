@@ -25,6 +25,7 @@ bool fromfile=false;
 string video;
 bool handCalibrate=false;
 bool trackRecord=false;
+bool giveCon=false;
 
 enum mode{learnMode,recognizeMode};
 enum targetAquireMode{motionMode,mouseMode};
@@ -334,6 +335,23 @@ int main(int argc, char * argv[])
                 cout<<">>>>>>>>>>>>"<<orb.getSize()<<"orbit recorded"<<endl;
             }
 
+
+            if(giveCon==false)
+            {
+                Point3f tmpIn;
+                tmpIn.x=pbox.y;
+                tmpIn.y=pbox.x;
+                tmpIn.z=pbox.width;
+                Point3f tmpOut;
+                mptd.map(tmpIn,tmpOut);
+                cout<<"##########################################"<<endl;
+
+                cout<<"-        "<<1<<"       "<<tmpOut<<endl;
+
+                cout<<"##########################################"<<endl;
+
+            }
+
         }
         else
         {
@@ -343,7 +361,21 @@ int main(int argc, char * argv[])
             safeCount+=16;
         }
 
-        //Display
+        //send the data to UR
+        if(giveCon==true)
+        {
+            Point3f tmp;
+            size_t index=orb.popPoint(tmp);
+            if(index!=-1)
+            {
+            cout<<"##########################################"<<endl;
+
+            cout<<"-        "<<orb.getIndex()<<"       "<<tmp<<endl;
+
+            cout<<"##########################################"<<endl;
+            }
+        }
+
 
 
 
@@ -375,6 +407,7 @@ int main(int argc, char * argv[])
         frames++;
         //printf("Detection rate: %d/%d\n",detections,frames);
 
+
         char keyValue=(char)waitKey(1);
         if (keyValue== 'q')
           break;
@@ -394,6 +427,11 @@ int main(int argc, char * argv[])
             orb.pointsMap(mptd);
             orb.savePoints("block");
             trackRecord=false;
+        }
+        else if(keyValue=='/')
+        {
+            orb.loadPoints("block");
+            giveCon=!giveCon;
         }
         else {
             if(handCalibrate==true)//calibrate the handsize map to the z-axis

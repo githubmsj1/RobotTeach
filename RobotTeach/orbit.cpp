@@ -5,7 +5,7 @@ using namespace std;
 
 Orbit::Orbit()
 {
-
+    outCount=0;
 }
 
 
@@ -27,13 +27,18 @@ int Orbit::pushPoint(int x,int y,int scale)
     imgPoints.push_back(tmp);
     return 0;
 }
-size_t Orbit::popPoint(cv::Point3f &output,bool repop=false)
+size_t Orbit::popPoint(cv::Point3f &output,bool repop)
 {
     static size_t popCount=0;
+    if(repop==true)
+    {
+        popCount=0;
+        outCount=0;
+    }
     if(popCount<robotPoints.size())
     {
         output=robotPoints[popCount];
-        popCount++;
+        popCount++;outCount++;
         return popCount-1;
     }
     else
@@ -86,12 +91,15 @@ int Orbit::loadPoints(std::string name)
     FileNode orbitNode=fs["orbit"];
     FileNodeIterator it=orbitNode.begin();
 
-    for(size_t i=0;i<robotPoints.size();i++,it++)
+    for(size_t i=0;it!=orbitNode.end();i++,it++)
     {
 
-        robotPoints[i].x=(*it)["x"];
-        robotPoints[i].y=(*it)["y"];
-        robotPoints[i].z=(*it)["z"];
+        Point3f tmp;
+        (*it)["x"]>>tmp.x;
+        (*it)["y"]>>tmp.y;
+        (*it)["z"]>>tmp.z;
+        cout<<tmp<<endl;
+        robotPoints.push_back(tmp);
 
     }
 
@@ -113,4 +121,8 @@ int Orbit::pointsMap(MapTwoD fmap)
 size_t Orbit::getSize()
 {
     return imgPoints.size();
+}
+size_t Orbit::getIndex()
+{
+    return outCount;
 }
