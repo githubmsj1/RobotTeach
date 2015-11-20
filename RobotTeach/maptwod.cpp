@@ -80,6 +80,7 @@ int MapTwoD::map(Point3f src,Point3f &dst)
 {
     float mapHandSize=src.z*kSize;
     float zRobot=aCoef*(mapHandSize-s1)+z1;
+    cout<<aCoef<<" "<<mapHandSize<<" "<<s1<<" "<<z1<<endl;
     Mat Hn=kCoef*(zRobot-z1)+H1;
 
     Mat sImg=Mat::zeros(3,1,CV_32F);

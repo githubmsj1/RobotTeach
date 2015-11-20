@@ -27,7 +27,7 @@ int Orbit::pushPoint(int x,int y,int scale)
     imgPoints.push_back(tmp);
     return 0;
 }
-size_t Orbit::popPoint(cv::Point3f &output)
+size_t Orbit::popPoint(cv::Point3f &output,bool repop=false)
 {
     static size_t popCount=0;
     if(popCount<robotPoints.size())
@@ -56,9 +56,11 @@ int Orbit::savePoints(std::string name)
     fs<<"[";
     for(size_t i=0;i<robotPoints.size();i++)
     {
+        fs<<"{";
         fs<<"x"<<robotPoints[i].x;
         fs<<"y"<<robotPoints[i].y;
         fs<<"z"<<robotPoints[i].z;
+        fs<<"}";
 
     }
     fs<<"]";
@@ -107,4 +109,8 @@ int Orbit::pointsMap(MapTwoD fmap)
         robotPoints.push_back(tmp);
     }
     return 0;
+}
+size_t Orbit::getSize()
+{
+    return imgPoints.size();
 }

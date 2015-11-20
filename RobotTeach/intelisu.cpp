@@ -7,7 +7,8 @@
 #include <stdio.h>
 #include "serial.h"
 #include "gaussian.h"
-#include <maptwod.h>
+#include "maptwod.h"
+#include "orbit.h"
 
 using namespace cv;
 using namespace std;
@@ -23,7 +24,7 @@ bool rep = false;
 bool fromfile=false;
 string video;
 bool handCalibrate=false;
-bool trackRecord;
+bool trackRecord=false;
 
 enum mode{learnMode,recognizeMode};
 enum targetAquireMode{motionMode,mouseMode};
@@ -142,6 +143,8 @@ int main(int argc, char * argv[])
     tld.read(fs.getFirstTopLevelNode());
     MapTwoD mptd;
     mptd.loadPara();
+    Orbit orb;
+
     Mat frame;
     Mat last_gray;
     Mat first;
@@ -324,7 +327,13 @@ int main(int argc, char * argv[])
             }
             #endif
 
-            //
+            //record the orbit data
+            if(trackRecord==true)
+            {
+                orb.pushPoint(pbox.y,pbox.x,pbox.width);
+                cout<<">>>>>>>>>>>>"<<orb.getSize()<<"orbit recorded"<<endl;
+            }
+
         }
         else
         {
@@ -376,9 +385,15 @@ int main(int argc, char * argv[])
             cout<<"done......"<<endl;
             break;
         }
-        else if(keyValue=='.')
+        else if(keyValue==',')
         {
             trackRecord=!trackRecord;
+        }
+        else if(keyValue=='.')
+        {
+            orb.pointsMap(mptd);
+            orb.savePoints("block");
+            trackRecord=false;
         }
         else {
             if(handCalibrate==true)//calibrate the handsize map to the z-axis
@@ -401,6 +416,13 @@ int main(int argc, char * argv[])
                     mptd.savePara();
                     cout<<"save s3..."<<endl;
                 }
+                if(keyValue=='[')//calculate Acoef
+                {
+                    mptd.calAcoef();
+                    mptd.savePara();
+                    cout<<"save Acoef"<<endl;
+                }
+
                 if(keyValue=='j')//record the inital handsize
                 {
                     mptd.pushHandSize(pbox.width);
@@ -420,6 +442,8 @@ int main(int argc, char * argv[])
 
         timeMs=(getTickCount()-timeMs)/getTickFrequency();
         cout<<"<<<<<<<<<< "<<"Time: "<<timeMs*1000<<" >>>>>>>>>>"<<endl;
+
+        //record the ordit or not
 
 //        static size_t runingtime=0;
 //        runingtime++;
