@@ -57,7 +57,8 @@ SOURCES += \
     gaussian.cpp \
     serial.cpp \
     intelisu.cpp \
-    maptwod.cpp
+    maptwod.cpp \
+    orbit.cpp
 
 DISTFILES += \
     parameters.yml \
@@ -72,7 +73,8 @@ HEADERS += \
     FerNNClassifier.h \
     LKTracker.h \
     tld_utils.h \
-    maptwod.h
+    maptwod.h \
+    orbit.h
 
 INCLUDEPATH +=/usr/local/include/opencv\
 /usr/local/include

@@ -76,7 +76,7 @@ int MapTwoD::calAcoef()
     return 0;
 }
 
-int MapTwoD::map(Point3f src,Point3f dst)
+int MapTwoD::map(Point3f src,Point3f &dst)
 {
     float mapHandSize=src.z*kSize;
     float zRobot=aCoef*(mapHandSize-s1)+z1;

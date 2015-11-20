@@ -14,7 +14,7 @@ public:
     MapTwoD();
     int loadPara();
     int savePara();
-    int map(Point3f src,Point3f dst);
+    int map(Point3f src, Point3f &dst);
     int calH();
     int calKcoef();
     int pushImgPoints(vector<Point2f>points);

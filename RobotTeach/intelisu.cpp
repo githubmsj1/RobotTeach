@@ -23,7 +23,7 @@ bool rep = false;
 bool fromfile=false;
 string video;
 bool handCalibrate=false;
-bool
+bool trackRecord;
 
 enum mode{learnMode,recognizeMode};
 enum targetAquireMode{motionMode,mouseMode};
@@ -300,7 +300,7 @@ int main(int argc, char * argv[])
             static unsigned char count=0;
             Rect symbol(Point(0,0),Size(frame.cols,frame.rows));
             rectangle(frame,symbol.tl(),symbol.br(),Scalar(0,0,count),15);
-            putText(frame,"WARNING",Point(90,120),FONT_HERSHEY_SIMPLEX,1.2,CV_RGB(count,0,0),2);
+            putText(frame,"HIT",Point(90,120),FONT_HERSHEY_SIMPLEX,1.2,CV_RGB(count,0,0),2);
             count+=16;
 
             //attach coordinate
@@ -330,7 +330,7 @@ int main(int argc, char * argv[])
         {
             //drawSafe
             static unsigned char safeCount=0;
-            putText(frame,"Environment Safe",Point(20,20),FONT_HERSHEY_SIMPLEX,0.7,CV_RGB(0,safeCount,0),2);
+            putText(frame,"NOTHING",Point(20,20),FONT_HERSHEY_SIMPLEX,0.7,CV_RGB(0,safeCount,0),2);
             safeCount+=16;
         }
 
@@ -375,6 +375,10 @@ int main(int argc, char * argv[])
             tld.saveModel(modelName);
             cout<<"done......"<<endl;
             break;
+        }
+        else if(keyValue=='.')
+        {
+            trackRecord=!trackRecord;
         }
         else {
             if(handCalibrate==true)//calibrate the handsize map to the z-axis
