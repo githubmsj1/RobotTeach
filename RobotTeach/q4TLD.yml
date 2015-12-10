@@ -1,0 +1,10 @@
+%YAML:1.0
+box:
+   x: 158
+   y: 31
+   width: 117
+   height: 130
+imgSize:
+   width: 320
+   height: 240
+var: 1.6254787597656250e+03

@@ -33,6 +33,8 @@ FerNNClassifier.h
 -
 fstream
 -
+string
+-
 
 /home/jes/Desktop/project/RobotTeach/RobotTeach/./tld_utils.h
 opencv2/opencv.hpp

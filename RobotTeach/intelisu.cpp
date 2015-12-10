@@ -8,6 +8,9 @@
  * j: save initial hand size
  * ]: calculate acoef
  * k: save the inital object size and calculate kSize
+ * ,: record points
+ * .: save points
+ * /: send points
 */
 #include <opencv2/opencv.hpp>
 #include <tld_utils.h>
@@ -325,18 +328,7 @@ int main(int argc, char * argv[])
             printText<<"X:"<<detdObj.x<<"  "<<"Y:"<<detdObj.y<<"  "<<"Area:"<<pbox.width*pbox.height;
             putText(frame,printText.str(),Point(20,40),FONT_HERSHEY_SIMPLEX,0.7,CV_RGB(100,255,0),2);
 
-            //send data through serial port
-            #ifdef SERIAL_PORT
-	    	static int sendRate=0;
-            if((sendRate++)%8==0)
-            {
-                        sendBuff[0]=0xff;
-                sendBuff[1]=detdObj.x;
-                sendBuff[2]=detdObj.y;
-                sendBuff[3]=0xfe;
-                serial.send_data_tty(sendBuff,4);
-            }
-            #endif
+
 
             //record the orbit data
             if(trackRecord==true)
@@ -354,11 +346,37 @@ int main(int argc, char * argv[])
                 tmpIn.z=pbox.width;
                 Point3f tmpOut;
                 mptd.map(tmpIn,tmpOut);
-                cout<<"##########################################"<<endl;
 
-                cout<<"-        "<<1<<"       "<<tmpOut<<endl;
 
-                cout<<"##########################################"<<endl;
+                //send data through serial port
+                #ifdef SERIAL_PORT
+                //static int sendRate=0;
+                //if((sendRate++)%8==0)
+                //{
+                static float initMs=getTickCount();
+                //static float timeFlow=0;
+                if(((getTickCount()-initMs)/getTickFrequency())>0.5)
+                {
+                    cout<<"##########################################"<<endl;
+
+                    cout<<"-        "<<1<<"       "<<tmpOut<<endl;
+
+                    cout<<"##########################################"<<endl;
+
+                    sendBuff[0]=16;//head1
+                    sendBuff[1]=1;//head2
+                    sendBuff[2]=(char)((tmpOut.x+300)/4);//x
+                    sendBuff[3]=(char)(tmpOut.y/4);//y
+                    sendBuff[4]=(char)(tmpOut.z/4);//z
+                    sendBuff[5]=16;//tail1
+                    sendBuff[6]=2;//tail2
+
+                    serial.send_data_tty(sendBuff,7);
+                    initMs=getTickCount();
+
+                }
+                //}
+                #endif
 
             }
 
@@ -374,16 +392,42 @@ int main(int argc, char * argv[])
         //send the data to UR
         if(giveCon==true)
         {
-            Point3f tmp;
-            size_t index=orb.popPoint(tmp);
-            if(index!=-1)
+            static float initMs=getTickCount();
+            if(((getTickCount()-initMs)/getTickFrequency())>0.5)
             {
-            cout<<"##########################################"<<endl;
+                Point3f tmp;
+                size_t index=orb.popPoint(tmp);
+                if(index!=-1)
+                {
+                cout<<"##########################################"<<endl;
 
-            cout<<"-        "<<orb.getIndex()<<"       "<<tmp<<endl;
+                cout<<"-        "<<orb.getIndex()<<"       "<<tmp<<endl;
 
-            cout<<"##########################################"<<endl;
+                cout<<"##########################################"<<endl;
+
+
+                //send data through serial port
+                #ifdef SERIAL_PORT
+                //static int sendRate=0;
+                //if((sendRate++)%8==0)
+                //{
+                    sendBuff[0]=16;//head1
+                    sendBuff[1]=1;//head2
+                    sendBuff[2]=(char)((tmp.x+300)/4);//x
+                    sendBuff[3]=(char)(tmp.y/4);//y
+                    sendBuff[4]=(char)(tmp.z/4);//z
+                    sendBuff[5]=16;//tail1
+                    sendBuff[6]=2;//tail2
+
+                    serial.send_data_tty(sendBuff,7);
+                //}
+
+
+                initMs=getTickCount();
+                #endif
+                }
             }
+
         }
 
 

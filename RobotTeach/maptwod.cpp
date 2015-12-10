@@ -2,17 +2,16 @@
 
 MapTwoD::MapTwoD()
 {
+    objPoints.push_back(Point2f(168,324));
+    objPoints.push_back(Point2f(69,260));
+    objPoints.push_back(Point2f(8,411));
+    objPoints.push_back(Point2f(164,497));
 
-    objPoints.push_back(Point2f(0,0));
-    objPoints.push_back(Point2f(0,100));
-    objPoints.push_back(Point2f(100,0));
-    objPoints.push_back(Point2f(100,100));
+    z1=137;
+    z2=255;
+    z3=352;
 
-    z1=0;
-    z2=1;
-    z3=2;
-
-    //loadPara();
+    loadPara();
 
 }
 
